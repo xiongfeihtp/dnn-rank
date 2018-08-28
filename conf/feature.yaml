@@ -1,0 +1,338 @@
+## Feature Configuration
+# Using tf.feature_column in TensorFlow.
+# see https://www.tensorflow.org/api_docs/python/tf/feature_column
+
+# Each feature consists 3 attributes `type`, `transform`, `parameter`.
+# 1. feature: feature name required, must in schema.yaml.
+# 2. type: required, feature type, `category` or `continuous`.
+# 3. transform: feature transform.
+# 4. parameter: main parameter for transform.
+#    (1) type: category
+#         transform: `hash_bucket` or `vocab` or `identity`.
+#           hash_bucket  ==> tf.feature.categorical_column_with_hash_bucket
+#           vocab        ==> tf.feature.categorical_column_with_vocabulary_list
+#           identity     ==> tf. feature.categorical_column_with_identity
+#         parameter: examples as follows,
+#           1000            (hash_bucket_size  for `hash_bucket`)
+#           ['a', 'b', 'c'] (vocabulary_list for `vocab`)
+#           15              (num_buckets  for `identity`)
+#    (2) type: continuous
+#         transform: ``, `log`, `standard` normalization for normalizer_fn in
+#                    tf.feature_column.numeric_column, set empty to not do normalization.
+#           ``    ==> x = (x-min) / (x-max);
+#           `log`        ==> x = log(x), all feature values must >= 1
+#           `standard`   ==> x = (x-mean) / std
+#
+#         parameter:
+#           normalization: [min, max] or [mean, std] list for `` or `standard`; set empty for `log`.
+#           boundaries: optional, set boundaries, eg: [5, 10, 15, 20] for `discretize`
+#                       (bucketized continuous feature for wide input or as cross feature),
+#                       set empty for not use continuous feature for wide input.
+# Set unused features by using symbol `#` ahead of the lines.
+# Category features with hash_bucket using embedding_column to feed deep, others by indicator_column.
+# All listed features are used in model.
+
+# Q & A about hash_bucket_size:
+# If category size=1000, how much should hash_bucket_size be ?
+#   An interesting discovery is that randomly chose N number a_i between 1~N, i=1,...N
+#     let b_i = a_i % N, the distinct b_i from all N number is about 0.633.
+#     in other words, a random hash func chose N as hash_bucket_size collision rate is 0.633.
+#   Recommend `hash_bucket_size` to be 2~3*category size.
+#     larger `hash_bucket_size` require more memory and complexity, but smaller cause more collision
+#   Here use the strategy that
+#     for low sparsity category, set `hash_bucket_size` 3~4*category size to reduce collision
+#     for high sparsity category, set 1.5~2*category size to save memory.
+# TODO: support all tf.feature_column.
+
+R1:
+  type: continuous
+  transform:
+  parameter:
+    normalization:
+    boundaries:
+    
+    
+R2:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+R3:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+R4:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+R5:
+  type: continuous
+  transform: 
+  parameter:
+    normalization:
+    boundaries:
+
+
+R6:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+R7:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+R8:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+
+R9:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+
+R10:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+
+R11:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+
+R12:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:  
+
+
+R13:
+  type: continuous
+  transform: 
+  parameter:
+    normalization: 
+    boundaries:
+C1:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 600
+    embed_size: 12
+
+
+C2:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 600
+    embed_size: 12
+
+
+C3:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 12000
+    embed_size: 12
+
+
+C4:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 15000
+    embed_size: 12
+
+
+C5:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 200
+    embed_size: 12
+
+
+C6:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 20
+    embed_size: 12
+
+C7:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 10000
+    embed_size: 12
+
+C8:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 300
+    embed_size: 12
+
+C9:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 5
+    embed_size: 12
+
+C10:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 12000
+    embed_size: 12
+
+C11:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 5000
+    embed_size: 12
+
+C12:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 12000
+    embed_size: 12
+
+C13:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 4000
+    embed_size: 12
+
+C14:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 40
+    embed_size: 12
+
+C15:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 6000
+    embed_size: 12
+
+C16:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 13000
+    embed_size: 12
+
+C17:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 20
+    embed_size: 12
+
+C18:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 2800
+    embed_size: 12
+
+C19:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 1500
+    embed_size: 12
+
+C20:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 10
+    embed_size: 12
+
+C21:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 13000
+    embed_size: 12
+
+C22:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 15
+    embed_size: 12
+
+C23:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 20
+    embed_size: 12
+
+C24:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 10000
+    embed_size: 12
+
+C25:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 60
+    embed_size: 12
+
+C26:
+  type: category
+  transform: hash_bucket
+  parameter:
+    hash_bucket_size: 8000
+    embed_size: 12

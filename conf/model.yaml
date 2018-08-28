@@ -1,0 +1,11 @@
+dnn_hidden_units: [400,200,70]
+learning_rate: 0.01
+cross_layer_size: [200,200,100]
+dnn_decay_rate: 0.8
+field_num: 26
+embed_dim: 12
+activation: selu
+initializer: xavier
+embed_initializer:
+cross_dcn_layer_size: 3
+
